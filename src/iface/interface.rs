@@ -19,7 +19,7 @@ use crate::{Error, Result};
 /// The network interface logically owns a number of other data structures; to avoid
 /// a dependency on heap allocation, it instead owns a `BorrowMut<[T]>`, which can be
 /// a `&mut [T]`, or `Vec<T>` if a heap is available.
-pub struct Interface<'a, DeviceT: for<'d> Device<'d>> {
+pub struct Interface<'a, DeviceT: Device> {
     device: DeviceT,
     sockets: SocketSet<'a>,
     inner: InterfaceInner<'a>,
@@ -53,7 +53,7 @@ struct InterfaceInner<'a> {
 }
 
 /// A builder structure used for creating a network interface.
-pub struct InterfaceBuilder<'a, DeviceT: for<'d> Device<'d>> {
+pub struct InterfaceBuilder<'a, DeviceT: Device> {
     device: DeviceT,
     #[cfg(any(feature = "medium-ethernet", feature = "medium-ieee802154"))]
     hardware_addr: Option<HardwareAddress>,
@@ -73,10 +73,7 @@ pub struct InterfaceBuilder<'a, DeviceT: for<'d> Device<'d>> {
     ipv4_multicast_groups: ManagedMap<'a, Ipv4Address, ()>,
 }
 
-impl<'a, DeviceT> InterfaceBuilder<'a, DeviceT>
-where
-    DeviceT: for<'d> Device<'d>,
-{
+impl<'a, DeviceT: Device> InterfaceBuilder<'a, DeviceT> {
     /// Create a builder used for creating a network interface using the
     /// given device and address.
     #[cfg_attr(
@@ -465,10 +462,7 @@ enum IgmpReportState {
     },
 }
 
-impl<'a, DeviceT> Interface<'a, DeviceT>
-where
-    DeviceT: for<'d> Device<'d>,
-{
+impl<'a, DeviceT: Device> Interface<'a, DeviceT> {
     /// Add a socket to the interface, and return its handle.
     ///
     /// # Panics

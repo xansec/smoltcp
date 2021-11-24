@@ -1,6 +1,6 @@
 on:
   push:
-    branches: [ staging, trying ]
+    branches: [staging, trying]
   pull_request:
 
 name: Test
@@ -20,8 +20,8 @@ jobs:
         # Test on stable, MSRV 1.46, and nightly.
         # Failure is permitted on nightly.
         rust:
-          - stable
-          - 1.56.0
+          #- stable
+          #- 1.56.0
           - nightly
 
         features:
@@ -67,8 +67,8 @@ jobs:
         # Test on stable, MSRV 1.46, and nightly.
         # Failure is permitted on nightly.
         rust:
-          - stable
-          - 1.56.0
+          #- stable
+          #- 1.56.0
           - nightly
 
         features:

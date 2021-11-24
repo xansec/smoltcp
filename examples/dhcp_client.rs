@@ -94,10 +94,7 @@ fn main() {
     }
 }
 
-fn set_ipv4_addr<DeviceT>(iface: &mut Interface<'_, DeviceT>, cidr: Ipv4Cidr)
-where
-    DeviceT: for<'d> Device<'d>,
-{
+fn set_ipv4_addr<DeviceT: Device>(iface: &mut Interface<'_, DeviceT>, cidr: Ipv4Cidr) {
     iface.update_ip_addrs(|addrs| {
         let dest = addrs.iter_mut().next().unwrap();
         *dest = IpCidr::Ipv4(cidr);
