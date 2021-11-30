@@ -23,4 +23,17 @@ impl Rand {
         let shift = 29 - (s >> 61);
         (s >> shift) as u32
     }
+
+    pub(crate) fn rand_u16(&mut self) -> u16 {
+        self.rand_u32() as u16
+    }
+
+    pub(crate) fn rand_source_port(&mut self) -> u16 {
+        loop {
+            let res = self.rand_u16();
+            if res > 1024 {
+                return res;
+            }
+        }
+    }
 }
